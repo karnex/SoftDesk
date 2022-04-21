@@ -17,6 +17,13 @@ class UserSerializer(serializers.ModelSerializer):
         return user
 
 
+class UserSimpleSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = ['id', 'username']
+
+
 class PasswordSerializer(serializers.Serializer):
     """ Serializer change for password change endpoint """
     old_password = serializers.CharField(required=True)

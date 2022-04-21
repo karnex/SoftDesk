@@ -4,14 +4,14 @@ from authentication.models import User
 
 
 CONTRIBUTOR_ROLE = [('Auteur', 'Auteur'), ('Contributeur', 'Contributeur')]
-TYPE_CHOICES = [('Web', 'Web'), ('iOS', 'iOS'), ('Android', 'Android')]
+TYPE_CHOICES = [('front-end', 'front-end'), ('back-end', 'back-end'), ('iOS', 'iOS'), ('Android', 'Android')]
 
 
 class Project(models.Model):
     title = models.CharField(max_length=255)
     description = models.CharField(max_length=255)
     type = models.CharField(max_length=15, choices=TYPE_CHOICES)
-    attendee = models.ManyToManyField(User, through='Contributor')
+    contributors = models.ManyToManyField(User, through='Contributor')
 
 
 class Contributor(models.Model):

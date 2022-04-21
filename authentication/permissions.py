@@ -14,3 +14,7 @@ class ProjectPermission(BasePermission):
             print('That method is still not managed: ' + str(request.method))
 
         return True if request.user.is_authenticated else False
+
+    def has_object_permission(self, request, view, obj):
+        # Chercher la difference entre les deux
+        pass
