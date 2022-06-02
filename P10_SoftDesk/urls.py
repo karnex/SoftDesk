@@ -2,6 +2,7 @@ from django.urls import path, include
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from rest_framework_nested import routers
 
+from authentication.views import AnonymizeViewSet
 from issue.views import IssueViewSet, CommentViewSet
 from project.views import ProjectViewSet, ContributorViewSet
 
@@ -19,6 +20,7 @@ urlpatterns = [
     path('api-auth', include('rest_framework.urls')),
     path('api/login/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/signup/', include('authentication.urls')),
+    path('api/anonymize-my-account', AnonymizeViewSet.as_view({'put': 'update'})),
     path('api/token-refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/', include(router.urls)),
     path('api/', include(project_router.urls)),

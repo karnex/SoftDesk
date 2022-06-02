@@ -1,12 +1,6 @@
-import re
-
-from django.db.models import Q
-from rest_framework import status
-from rest_framework.generics import get_object_or_404
-from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
 
-from authentication.permissions import ProjectPermission
+from authentication.permissions import HasContributorPermission, HasProjectPermission
 from project.models import Project, Contributor
 from project.serializers import ProjectSerializer, ProjectDetailSerializer, ContributorSerializer, \
     ContributorAllSerializer
@@ -14,11 +8,11 @@ from project.serializers import ProjectSerializer, ProjectDetailSerializer, Cont
 
 class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
-    # permission_classes = [ProjectPermission]
+    permission_classes = [HasProjectPermission]
 
-    def get_permissions(self):
+    #def get_permissions(self):
         # Vérifier et traiter
-        pass
+    #    pass
 
     def get_serializer_class(self):
         return ProjectSerializer if self.action == 'list' or self.action == 'create' else ProjectDetailSerializer
@@ -31,6 +25,8 @@ class ProjectViewSet(ModelViewSet):
 
 class ContributorViewSet(ModelViewSet):
     """ Contributor(s) of a project """
+    permission_classes = [HasContributorPermission]
+
     def get_serializer_class(self):
         return ContributorAllSerializer if self.action == 'list' or self.action == 'create' else ContributorSerializer
 

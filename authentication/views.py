@@ -14,18 +14,43 @@ class SignUpViewset(viewsets.ModelViewSet):
     permission_classes = [IsAdminUser]
 
     def create(self, request, *args, **kwargs):
-        print(request.data)
         serializer = UserSerializer(data=request.data)
         data = {}
-        if serializer.is_valid():
-            user = serializer.save()
-            data['response'] = 'Successfully registered a new user'
-            data['email'] = user.email
-            data['username'] = user.username
+        if not request.user.is_superuser:
+            return Response(status=status.HTTP_403_FORBIDDEN)
         else:
-            data = serializer.errors
+            if serializer.is_valid():
+                try:
+                    user = serializer.save()
+                except KeyError as ke:
+                    data['response'] = f'{ke} is missing !'
+                    return Response(data, status=status.HTTP_401_UNAUTHORIZED)
+                data['response'] = 'Successfully registered a new user'
+                data['email'] = user.email
+                data['username'] = user.username
+            else:
+                data = serializer.errors
 
-        return Response(data)
+            return Response(data)
+
+
+class AnonymizeViewSet(viewsets.ModelViewSet):
+
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+
+    def update(self, request, *args, **kwargs):
+        user = User.objects.filter(id=self.request.user.id).first()
+        if not user:
+            return status.HTTP_409_CONFLICT
+        user.username = user.first_name = user.last_name = user.email = 'anonymous'
+        user.is_active = False
+        try:
+            user.save()
+        except Exception as e:
+            raise Exception(e)
+        else:
+            return Response(status=status.HTTP_200_OK)
 
 
 class UsersViewset(viewsets.ModelViewSet):

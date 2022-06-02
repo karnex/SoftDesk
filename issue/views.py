@@ -1,11 +1,14 @@
 from rest_framework.viewsets import ModelViewSet
 
+from authentication.permissions import HasIssuePermission, HasCommentPermission
 from issue.models import Issue, Comment
 from issue.serializers import IssueAllSerializer, CommentAllSerializer
 
 
 class IssueViewSet(ModelViewSet):
     """ Issue related to a project """
+    permission_classes = [HasIssuePermission]
+
     def get_serializer_class(self):
         return IssueAllSerializer
 
@@ -27,6 +30,8 @@ class IssueViewSet(ModelViewSet):
 
 class CommentViewSet(ModelViewSet):
     """ Comment related to an issue """
+    permission_classes =  [HasCommentPermission]
+
     def get_serializer_class(self):
         return CommentAllSerializer
 
