@@ -10,10 +10,6 @@ class ProjectViewSet(ModelViewSet):
     queryset = Project.objects.all()
     permission_classes = [HasProjectPermission]
 
-    #def get_permissions(self):
-        # Vérifier et traiter
-    #    pass
-
     def get_serializer_class(self):
         return ProjectSerializer if self.action == 'list' or self.action == 'create' else ProjectDetailSerializer
 

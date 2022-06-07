@@ -44,21 +44,21 @@
 Have fun ! 😏
 
 ------------------------------------------------------------
-### Utilisation de Flake8
+### Using Flake8
 
-##### Installer Flake8 et son plugin de génération de rapport html
+##### Install Flake8 and its html report generation plugin
 
-Sur un appareil Windows:<br/>
+- From a Windows device:<br/>
 ```pip install flake8 flake8_html```
 
-Sur un appareil Unix:<br/>
+- From a Unix device:<br/>
 ```pip3 install flake8 flake8_html```
 
-#### Fichier de configuration
+#### Configuration file
 
-La configuration de flake8 est ici gérée par l'intermédiaire du fichier setup.cfg qui se trouve à la racine du projet.
+The configuration of flake8 is managed here through the setup.cfg file which is located at the root of the project.
 
-#### Générer un raport flake8-html
+#### Generate a flake8-html report
 
 ```flake8 --format=html --htmldir=flake8_rapport```
 

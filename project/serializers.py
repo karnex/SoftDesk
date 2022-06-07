@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from authentication.models import User
 from authentication.serializers import UserSimpleSerializer
 from project.models import Project, Contributor
 

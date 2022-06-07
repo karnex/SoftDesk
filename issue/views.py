@@ -30,7 +30,7 @@ class IssueViewSet(ModelViewSet):
 
 class CommentViewSet(ModelViewSet):
     """ Comment related to an issue """
-    permission_classes =  [HasCommentPermission]
+    permission_classes = [HasCommentPermission]
 
     def get_serializer_class(self):
         return CommentAllSerializer
