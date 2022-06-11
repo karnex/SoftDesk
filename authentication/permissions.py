@@ -39,10 +39,10 @@ class HasIssuePermission(permissions.BasePermission):
         if Contributor.objects.filter(Q(project=view.kwargs["project_pk"]) & Q(user=request.user)).exists():
             if request.method in CONTRIB_METHODS:
                 return True
-        if "issue_pk" in view.kwargs:
-            issue = Issue.objects.filter(id=view.kwargs["issue_pk"])
+        if "pk" in view.kwargs:
+            issue = Issue.objects.filter(id=view.kwargs["pk"])
             if issue.exists():
-                return issue.first().author == request.user
+                return issue.first().author_user == request.user
         return False
 
 
@@ -52,8 +52,8 @@ class HasCommentPermission(permissions.BasePermission):
                                       Q(project__issues=view.kwargs["issue_pk"])).filter(user=request.user).exists():
             if request.method in CONTRIB_METHODS:
                 return True
-        if "comment_id" in view.kwargs:
-            comment = Comment.objects.filter(id=view.kwargs["comment_pk"])
+        if "pk" in view.kwargs:
+            comment = Comment.objects.filter(id=view.kwargs["pk"])
             if comment.exists():
-                return comment.first().author == request.user
+                return comment.first().author_user == request.user
         return False
