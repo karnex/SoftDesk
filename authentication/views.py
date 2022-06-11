@@ -43,7 +43,7 @@ class AnonymizeViewSet(viewsets.ModelViewSet):
         user = User.objects.filter(id=self.request.user.id).first()
         if not user:
             return status.HTTP_409_CONFLICT
-        user.username = user.first_name = user.last_name = user.email = 'anonymous'
+        user.username = user.first_name = user.last_name = user.email = f'anonymous{user.id}'
         user.is_active = False
         try:
             user.save()
